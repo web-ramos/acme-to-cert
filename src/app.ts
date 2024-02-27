@@ -1,12 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-// Путь к файлу acme.json
+
 const acmeFilePath = path.join(__dirname, 'acme.json');
-// Директория для сохранения экспортированных сертификатов
 const outputDir = path.join(__dirname, 'certs');
 
-// Чтение и парсинг acme.json
 fs.readFile(acmeFilePath, 'utf8', (err, data) => {
   if (err) {
     console.error('Ошибка при чтении файла acme.json:', err);
@@ -27,13 +25,11 @@ fs.readFile(acmeFilePath, 'utf8', (err, data) => {
         fs.mkdirSync(certDir, { recursive: true });
       }
 
-      // Декодирование и сохранение сертификата
       const certContent = Buffer.from(cert.certificate, 'base64').toString('utf8');
       const certPath = path.join(certDir, 'certificate.crt');
       fs.writeFileSync(certPath, certContent);
       console.log(`Сертификат для ${domainName} сохранен в: ${certPath}`);
 
-      // Декодирование и сохранение ключа
       const keyContent = Buffer.from(cert.key, 'base64').toString('utf8');
       const keyPath = path.join(certDir, 'private.key');
       fs.writeFileSync(keyPath, keyContent);
